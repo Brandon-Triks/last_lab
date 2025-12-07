@@ -14,7 +14,7 @@ int main() {
         return 1;
     }
     std::stack<std::string> st;
-    for (auto m: vec) {
+    for (auto m: vec) {     //постфиксная запись
         if (is_numb(m) || m=="x") {
             vihod+=m;
             vihod+=' ';
@@ -34,17 +34,18 @@ int main() {
             st.pop();
         }
         else if (is_operator(m)) {
-
-            if (!st.empty() && is_func(st.top())) {
-                vihod+=st.top();
-                vihod+=' ';
-                st.pop();
-            }
-            if (!st.empty() && pr_comparing(st.top()[0],m[0])) {
-                if (st.top()!="("){
+            if (!st.empty()) {
+                if (is_func(st.top())) {
                     vihod+=st.top();
                     vihod+=' ';
                     st.pop();
+                }
+                else if (pr_comparing(st.top()[0],m[0])) {
+                    if (st.top()!="("){
+                        vihod+=st.top();
+                        vihod+=' ';
+                        st.pop();
+                    }
                 }
             }
             st.push(m);
@@ -54,6 +55,6 @@ int main() {
         vihod+=st.top();
         vihod+=' ';
         st.pop();
-    }
-    std::cout << '\n' << vihod;
+    }       //vihod содержит постфиксную запись
+    std::cout<<vihod<<'\n';
 }
