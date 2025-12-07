@@ -40,12 +40,10 @@ int main() {
                     vihod+=' ';
                     st.pop();
                 }
-                else if (pr_comparing(st.top()[0],m[0])) {
-                    if (st.top()!="("){
-                        vihod+=st.top();
-                        vihod+=' ';
-                        st.pop();
-                    }
+                if (!st.empty()&&pr_comparing(st.top()[0],m[0])&&st.top()!="(") {
+                    vihod+=st.top();
+                    vihod+=' ';
+                    st.pop();
                 }
             }
             st.push(m);
