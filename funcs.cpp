@@ -38,8 +38,10 @@ std::vector <std::string> pars(const std::string& vhod) {   //парсинг
     return v;
 }
 
-void replace_un_minus(std::vector <std::string>& pars,const std::vector <std::string>& op) { //замена унарного минуса на функцию neg
-    bool flag = 0;
+void replace_un_minus(std::vector <std::string>& pars,const std::vector <std::string>& op) {
+    //замена унарного минуса на функцию neg
+    std::vector <std::string> tmp;
+    bool flag1 = 0;
     if (pars[0]=="-") {
         pars[0] = "neg";
     }
@@ -50,6 +52,27 @@ void replace_un_minus(std::vector <std::string>& pars,const std::vector <std::st
             }
         }
     }
+    pars.push_back("'");
+    int k1 = 0;
+    int k2 = 0;
+    for (int i=0; i < pars.size()-1; i++) { //вставляю скобки слева и справа от аргумента функции neg
+        if (pars[i]!="'") {
+            tmp.push_back(pars[i]);
+            if (pars[i]=="neg" && is_func(pars[i+1])) {
+                    tmp.push_back("(");
+                    flag1 = 1;
+            }
+            else if (flag1) {
+                if (pars[i]=="("){k1++;}
+                if (pars[i]==")"){k2++;}
+                if (k1==k2 && k1>0 && k2>0) {
+                    tmp.push_back(")");
+                    flag1 = 0;
+                }
+            }
+        }
+    }
+    pars = tmp;
 }
 bool is_numb(std::string str) {     //является ли строка целым или вещественным числом
     if (str=="π"){return 1;}
